@@ -2,6 +2,13 @@
 import urllib2
 import json
 
+__author__ = "Anton Khartishov"
+__license__ = "GPL"
+__version__ = "0.1.1"
+__maintainer__ = "Anton Khartishov"
+__email__ = "night-fog@bk.ru"
+
+
 MOSCOW_BARS_DATA_INFO = "http://api.data.mos.ru/v1/datasets/1796"
 API_ROWS_MAX = 500
 
@@ -47,10 +54,10 @@ def get_closest_bar(data, longitude, latitude):
     nearest_bar_k = None
     for i in range(len(data)):
         bar_coord = data[i].get("Cells").get("geoData").get("coordinates")
-        bar_k = abs(bar_coord[0]-longitude) + abs(bar_coord[1]-latitude)
+        bar_k = abs(bar_coord[1]-longitude) + abs(bar_coord[0]-latitude)
         if nearest_bar_k is None or bar_k < nearest_bar_k:
             nearest_bar_name = data[i].get("Cells").get("Name")
-            nearest_bar_k = abs(bar_coord[0]-longitude) + abs(bar_coord[1]-latitude)
+            nearest_bar_k = bar_k
     return nearest_bar_name
 
 barsList = load_data(MOSCOW_BARS_DATA_INFO)
