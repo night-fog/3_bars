@@ -4,16 +4,24 @@ import json
 
 __author__ = "Anton Khartishov"
 __license__ = "GPL"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __maintainer__ = "Anton Khartishov"
 __email__ = "night-fog@bk.ru"
 
 
-MOSCOW_BARS_DATA_INFO = "http://api.data.mos.ru/v1/datasets/1796"
+API_LINK = "http://api.data.mos.ru/v1/datasets"
+BAR_CAPTION = u'Бары'
 API_ROWS_MAX = 500
 
 
 def load_data(filepath):
+    bars_dataset_id = None
+    all_datasets_resp = urllib2.urlopen(filepath)
+    all_datasets_dict = json.loads(all_datasets_resp.read())
+    for i in range(len(all_datasets_dict)):
+        if BAR_CAPTION == all_datasets_dict[i].get("Caption"):
+            bars_dataset_id = all_datasets_dict[i].get("Id")
+    filepath += "/" + str(bars_dataset_id)
     bars_info_url_resp = urllib2.urlopen(filepath)
     bars_data_info = json.loads(bars_info_url_resp.read())
     bars_count = bars_data_info["ItemsCount"]
@@ -60,8 +68,8 @@ def get_closest_bar(data, longitude, latitude):
             nearest_bar_k = bar_k
     return nearest_bar_name
 
-barsList = load_data(MOSCOW_BARS_DATA_INFO)
-print ("Biggest bar is " + get_biggest_bar(barsList))
-print ("Smallest bar is " + get_smallest_bar(barsList))
+bars_list = load_data(API_LINK)
+print ("Biggest bar is " + get_biggest_bar(bars_list))
+print ("Smallest bar is " + get_smallest_bar(bars_list))
 current_location = [input("Enter your latitude: "), input("Enter your longitude: ")]
-print ("Nearest bar is " + get_closest_bar(barsList, current_location[0], current_location[1]))
+print ("Nearest bar is " + get_closest_bar(bars_list, current_location[0], current_location[1]))
