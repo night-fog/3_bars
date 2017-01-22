@@ -42,7 +42,8 @@ def get_closest_bar(data, longitude, latitude):
 
 
 if __name__ == '__main__':
-    args = parser_config().parse_args()
+    parser = parser_config()
+    args = parser.parse_args()
     try:
         bars = read_bars_data_from_file(args.file_path)
     except FileNotFoundError:
