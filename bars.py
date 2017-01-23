@@ -44,23 +44,11 @@ def get_closest_bar(data, longitude, latitude):
 if __name__ == '__main__':
     parser = parser_config()
     args = parser.parse_args()
-    try:
-        bars = read_bars_data_from_file(args.file_path)
-    except FileNotFoundError:
-        print("File " + args.file_path + " not found")
-        exit(1)
-    except UnicodeDecodeError:
-        print("Wrong file encoding. Use windows-1251.")
-        exit(1)
-
+    bars = read_bars_data_from_file(args.file_path)
     print("Biggest bar is : " + get_biggest_bar(bars))
     print("Smallest bar is : " + get_smallest_bar(bars))
-    try:
-        current_location = [float(input("Enter your latitude: ")),
-                            float(input("Enter your longitude: "))]
-        nearest_bar_name = get_closest_bar(bars, current_location[0],
-                                           current_location[1])
-        print("Nearest bar is : " + nearest_bar_name)
-    except ValueError:
-        print("Coordinates type mismatch")
-        exit(1)
+    current_location = [float(input("Enter your latitude: ")),
+                        float(input("Enter your longitude: "))]
+    nearest_bar_name = get_closest_bar(bars, current_location[0],
+                                       current_location[1])
+    print("Nearest bar is : " + nearest_bar_name)
