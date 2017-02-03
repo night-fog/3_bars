@@ -4,16 +4,16 @@ import argparse
 
 
 def parser_config():
-    parser = argparse.ArgumentParser(
+    parser_object = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description='''\
             Read data from json file, set in first argument.
             Find the largest bar in data.
             Find the smallest bar in data.
             Find the nearest bar by latitude and longitude.''')
-    parser.add_argument('file_path', metavar='bars.json', type=str,
-                        help='path to the json file with bars data')
-    return parser
+    parser_object.add_argument('file_path', metavar='bars.json', type=str,
+                               help='path to the json file with bars data')
+    return parser_object
 
 
 def read_bars_data_from_file(file_path):
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     print("Biggest bar is : {:s}".format(get_biggest_bar(bars)))
     print("Smallest bar is : {:s}".format(get_smallest_bar(bars)))
     current_location = float(input("Enter your latitude: ")), \
-                       float(input("Enter your longitude: "))
+        float(input("Enter your longitude: "))
     nearest_bar_name = get_closest_bar(bars, current_location[0],
                                        current_location[1])
     print("Nearest bar is : {:s}".format(nearest_bar_name))
